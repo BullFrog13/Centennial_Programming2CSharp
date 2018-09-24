@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Lab1
+namespace Lab_1
 {
     public class Rectangle
     {
