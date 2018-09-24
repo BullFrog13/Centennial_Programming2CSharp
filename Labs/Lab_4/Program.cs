@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Lab_3
+namespace Lab_4
 {
     class Program
     {
         static void Main()
         {
-            var date = new Date(2018, 9, 24);
+            var date = new Date(2018, 9, 28);
             Console.WriteLine(date.TellAboutYourself());
             date.AddDays(5);
             Console.WriteLine(date.TellAboutYourself());
