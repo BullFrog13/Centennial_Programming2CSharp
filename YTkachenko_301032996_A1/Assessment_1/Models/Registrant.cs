@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using Assessment_1.Utils;
 
@@ -7,86 +6,72 @@ namespace Assessment_1.Models
 {
     public class Registrant
     {
-        private const uint MinimumPhoneNumber = 1000000000;
-        private const ulong MaximumPhoneNumber = 9999999999;
+        private const uint MINIMUM_PHONE_NUMBER = 1000000000;
+        private const long MAXIMUM_PHONE_NUMBER = 9999999999;
 
-        private static readonly List<uint> RegistrantsIds = new List<uint>();
+        private static readonly int[] RegistrantsIds = new int[1000];
 
-        private uint registrationNumber;
+        private int registrationNumber;
         private string name;
         private DateTime dateOfBirth;
         private Address address;
-        private ulong phoneNumber;
+        private long phoneNumber;
 
-        public uint RegistrationNumber
+        public int RegistrationNumber
         {
-            get => registrationNumber;
+            get { return registrationNumber; }
             set
             {
-                registrationNumber = RegistrantsIds.Contains(value) ? Helpers.GenerateIdForSequence(RegistrantsIds) : value;
+                if (value < 1 || Helpers.CheckIfIdExists(RegistrantsIds, value))
+                {
+                    value = Helpers.GenerateUniqueId(RegistrantsIds);
+                }
 
-                RegistrantsIds.Add(registrationNumber);
+                registrationNumber = value;
+                Helpers.InsertValueInArray(RegistrantsIds, value);
             }
         }
 
         public string Name
         {
-            get => name;
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("Name can not be null or empty");
-                }
-
-                name = value;
-            }
+            get { return name; }
+            set { name = string.IsNullOrEmpty(value) ? "Default_Name" : value; }
         }
 
         public DateTime DateOfBirth
         {
-            get => dateOfBirth;
-            set
-            {
-                if (value > DateTime.UtcNow)
-                {
-                    throw new ArgumentException($"The date of birth {value:d} is incorrect");
-                }
-
-                dateOfBirth = value;
-            }
+            get { return dateOfBirth; }
+            set { dateOfBirth = value > DateTime.UtcNow ? new DateTime() : value; }
         }
 
         public Address Address
         {
-            get => address;
-            set => address = value;
+            get { return address; }
+            set { address = value; }
         }
 
-        public ulong PhoneNumber
+        public long PhoneNumber
         {
-            get => phoneNumber;
+            get { return phoneNumber; }
             set
             {
-                if (value < MinimumPhoneNumber || value > MaximumPhoneNumber)
+                if (value < MINIMUM_PHONE_NUMBER || value > MAXIMUM_PHONE_NUMBER)
                 {
-                    throw new ArgumentException($"Phone number {value} is out of range. It should be 10 digits");
+                    phoneNumber = MINIMUM_PHONE_NUMBER;
                 }
-
-                phoneNumber = value;
+                else
+                {
+                    phoneNumber = value;
+                }
             }
         }
 
-        public Registrant()
+        public Registrant() : this(0, "Default_Name", new DateTime(), new Address("Default_Street", "0", "000000", "Default_City"), MINIMUM_PHONE_NUMBER)
         {
-            RegistrationNumber = Helpers.GenerateIdForSequence(RegistrantsIds);
-            Name = "Default_Name";
-            DateOfBirth = new DateTime();
-            Address = new Address("Default_Street", "0", "000000", "Default_City");
-            PhoneNumber = 1000000000;
+
         }
 
-        public Registrant(uint registrationNumber, string name, DateTime dateOfBirth, Address address, ulong phoneNumber)
+        public Registrant(int registrationNumber, string name, DateTime dateOfBirth, Address address, long phoneNumber)
         {
             RegistrationNumber = registrationNumber;
             Name = name;
@@ -102,7 +87,7 @@ namespace Assessment_1.Models
             stringBuilder.Append($"Name: {Name}\n");
             stringBuilder.Append($"Date of birth: {DateOfBirth:D}\n");
             stringBuilder.Append($"Phone number: {PhoneNumber}\n");
-            stringBuilder.Append(Address.ToString());
+            stringBuilder.Append(Address.GetInfo());
 
             return stringBuilder.ToString();
         }

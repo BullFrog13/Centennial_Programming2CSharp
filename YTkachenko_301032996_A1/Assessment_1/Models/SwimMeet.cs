@@ -12,58 +12,51 @@ namespace Assessment_1.Models
 
         public DateTime StartDate
         {
-            get => startDate;
+            get { return startDate; }
             set
             {
                 if (EndDate.Date != DateTime.MinValue && value.Date > EndDate.Date)
                 {
-                    throw new ArgumentException($"Start date {value:d} cannot be before start date {StartDate:d}");
+                    StartDate = EndDate;
                 }
-
-                startDate = value;
+                else
+                {
+                    startDate = value;
+                }
             }
         }
 
         public DateTime EndDate
         {
-            get => endDate;
+            get { return endDate; }
             set
             {
                 if (StartDate.Date != DateTime.MinValue && value.Date < StartDate.Date)
                 {
-                    throw new ArgumentException($"End date {value:d} cannot be before start date {StartDate:d}");
+                    EndDate = StartDate;
                 }
-
-                endDate = value;
+                else
+                {
+                    endDate = value;
+                }
             }
         }
 
         public string Name
         {
-            get => name;
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("Name should not be null or empty");
-                }
-
-                name = value;
-            }
+            get { return name; }
+            set { name = string.IsNullOrEmpty(value) ? "Default_Name" : value; }
         }
 
         public PoolType Course
         {
-            get => course;
-            set => course = value;
+            get { return course; }
+            set { course = value; }
         }
 
-        public SwimMeet()
+        public SwimMeet() : this(new DateTime(), new DateTime(), "Default_Name", PoolType.SCM)
         {
-            StartDate = new DateTime();
-            EndDate = new DateTime();
-            Name = "Default_Name";
-            Course = 0;
+
         }
 
         public SwimMeet(DateTime startDate, DateTime endDate, string name, PoolType course)

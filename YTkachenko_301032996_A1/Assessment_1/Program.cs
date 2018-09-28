@@ -7,11 +7,11 @@ namespace Assessment_1
     {
         static void Main()
         {
-            var defaultAddress = new Address("street", "123", "L4Z1K8", "Mississauga");
+            var defaultAddress = new Address("ChalField Lane", "123A", "L4Z1K8", "Mississauga");
 
             var defaultClub = new Club();
-            var club1 = new Club(1, "Test", 6479706472, defaultAddress);
-            var club2 = new Club(1, "Test", 6479706472, defaultAddress);
+            var club1 = new Club(1, "Manchester City", 6479706472, defaultAddress);
+            var club2 = new Club(1, "Polo Club", 6479706472, defaultAddress);
 
             Console.WriteLine(defaultClub.GetInfo());
             Console.WriteLine();
@@ -21,16 +21,16 @@ namespace Assessment_1
             Console.WriteLine();
 
             var defaultEvent = new Event();
-            var @event = new Event(Strokes.Butterfly, Distances.E);
+            var event1 = new Event(Strokes.Butterfly, Distances.E);
 
             Console.WriteLine(defaultEvent.GetInfo());
             Console.WriteLine();
-            Console.WriteLine(@event.GetInfo());
+            Console.WriteLine(event1.GetInfo());
             Console.WriteLine();
 
             var defaultRegistrant = new Registrant();
             var registrant1 = new Registrant(1, "Bob", new DateTime(1997, 2, 5), defaultAddress, 6479706472);
-            var registrant2 = new Registrant(1, "Bob", new DateTime(2015, 3, 28), defaultAddress, 6479706472);
+            var registrant2 = new Registrant(1, "Tom", new DateTime(2015, 3, 28), defaultAddress, 6479706472);
 
             Console.WriteLine(defaultRegistrant.GetInfo());
             Console.WriteLine();

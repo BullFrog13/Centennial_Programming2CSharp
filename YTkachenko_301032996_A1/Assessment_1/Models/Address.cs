@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Assessment_1.Models
+﻿namespace Assessment_1.Models
 {
     public struct Address
     {
@@ -11,58 +9,26 @@ namespace Assessment_1.Models
 
         public string Street
         {
-            get => street;
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("Street name can not be null or empty");
-                }
-
-                street = value;
-            }
+            get { return street; }
+            set { street = string.IsNullOrEmpty(value) ? "Default_Street" : value; }
         }
 
         public string Number
         {
-            get => number;
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("Address number cannot be null or empty");
-                }
-
-                number = value;
-            }
+            get { return number; }
+            set { number = string.IsNullOrEmpty(value) ? "Default_Number" : value; }
         }
 
         public string ZipCode
         {
-            get => zipCode;
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("Zip code can not be null or empty");
-                }
-
-                zipCode = value;
-            }
+            get { return zipCode; }
+            set { zipCode = string.IsNullOrEmpty(value) ? "Default_ZipCode" : value; }
         }
 
         public string City
         {
-            get => city;
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentException("City value can not be null or empty");
-                }
-
-                city = value;
-            }
+            get { return city; }
+            set { city = string.IsNullOrEmpty(value) ? "Default_City" : value; }
         }
 
         public Address(string street, string number, string zipCode, string city) : this()
@@ -73,7 +39,7 @@ namespace Assessment_1.Models
             City = city;
         }
 
-        public override string ToString()
+        public string GetInfo()
         {
             return $"Address: {Number} {Street}, {ZipCode}, {City}";
         }

@@ -10,35 +10,35 @@ namespace Assessment_1.Models
 
         public ushort Heat
         {
-            get => heat;
-            set => heat = value;
+            get { return heat; }
+            set { heat = value; }
         }
 
         public byte Lane
         {
-            get => lane;
-            set => lane = value;
+            get { return lane; }
+            set { lane = value; }
         }
 
         public TimeSpan FinalSwimTime
         {
-            get => finalSwimTime;
+            get { return finalSwimTime; }
             set
             {
                 if (value < TimeSpan.Zero || value > TimeSpan.FromDays(1))
                 {
-                    throw new ArgumentException($"Final swim time {value} is out of range");
+                    finalSwimTime = TimeSpan.Zero;
                 }
-
-                finalSwimTime = value;
+                else
+                {
+                    finalSwimTime = value;
+                }
             }
         }
 
-        public Swim()
+        public Swim() : this(0, 0, TimeSpan.Zero)
         {
-            Heat = 0;
-            Lane = 0;
-            FinalSwimTime = TimeSpan.Zero;
+
         }
 
         public Swim(ushort heat, byte lane, TimeSpan finalSwimTime)

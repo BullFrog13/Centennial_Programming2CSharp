@@ -9,20 +9,19 @@ namespace Assessment_1.Models
 
         public Strokes Stroke
         {
-            get => stroke;
-            set => stroke = value;
+            get { return stroke; }
+            set { stroke = value; }
         }
 
         public Distances Distance
         {
-            get => distance;
-            set => distance = value;
+            get { return distance; }
+            set { distance = value; }
         }
 
-        public Event()
+        public Event() : this(Strokes.Backstroke, Distances.A)
         {
-            Stroke = Strokes.Backstroke;
-            Distance = Distances.A;
+
         }
 
         public Event(Strokes stroke, Distances distance)

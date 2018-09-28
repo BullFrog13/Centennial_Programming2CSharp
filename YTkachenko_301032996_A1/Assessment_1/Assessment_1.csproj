@@ -47,7 +47,6 @@
     <Compile Include="Models\Club.cs" />
     <Compile Include="Models\Distances.cs" />
     <Compile Include="Models\Event.cs" />
-    <Compile Include="Utils\Helpers.cs" />
     <Compile Include="Models\PoolType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -55,9 +54,11 @@
     <Compile Include="Models\Strokes.cs" />
     <Compile Include="Models\Swim.cs" />
     <Compile Include="Models\SwimMeet.cs" />
+    <Compile Include="Utils\Helpers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
