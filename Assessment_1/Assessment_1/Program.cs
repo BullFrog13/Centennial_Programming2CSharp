@@ -10,7 +10,7 @@ namespace Assessment_1
             var defaultAddress = new Address("street", "123", "L4Z1K8", "Mississauga");
 
             var defaultClub = new Club();
-            var club1 = new Club(1, "Test", 64797064721, defaultAddress);
+            var club1 = new Club(1, "Test", 6479706472, defaultAddress);
             var club2 = new Club(1, "Test", 6479706472, defaultAddress);
 
             Console.WriteLine(defaultClub.GetInfo());
