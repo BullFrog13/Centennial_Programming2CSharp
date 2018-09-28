@@ -2,6 +2,9 @@
 {
     public class Date
     {
+        private const ushort DaysInYear = 360;
+        private const byte DaysInMonth = 30;
+
         private int year;
         private Months month;
         private int day;
@@ -38,22 +41,26 @@
 
         public void AddDays(int howMany)
         {
-            if (Day + howMany > 30)
+            var years = howMany / DaysInYear;
+            howMany -= years * DaysInYear;
+
+            var monthAdded = howMany / DaysInMonth;
+            howMany -= monthAdded * DaysInMonth;
+
+            Year += years;
+            Month += monthAdded;
+            Day += howMany;
+
+            if ((int) Month > 12)
             {
-                if ((int)Month == 12)
-                {
-                    Year++;
-                    Month = Months.Jan;
-                }
-                else
-                {
-                    Month++;
-                    Day = Day + howMany - 30;
-                }
+                Year++;
+                Month -= 12;
             }
-            else
+
+            if (Day > 30)
             {
-                Day += howMany;
+                Day -= 30;
+                Month++;
             }
         }
     }

@@ -15,6 +15,16 @@ namespace Lab_4
             Console.WriteLine(date1.TellAboutYourself());
             date1.AddDays(30);
             Console.WriteLine(date1.TellAboutYourself());
+
+            var date2 = new Date(2018, 6, 15);
+            Console.WriteLine(date2.TellAboutYourself());
+            date2.AddDays(300);
+            Console.WriteLine(date2.TellAboutYourself());
+
+            var date3 = new Date(2018, 1, 5);
+            Console.WriteLine(date3.TellAboutYourself());
+            date3.AddDays(386);
+            Console.WriteLine(date3.TellAboutYourself());
         }
     }
 }
