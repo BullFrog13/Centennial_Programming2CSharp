@@ -51,7 +51,7 @@
             Month += monthAdded;
             Day += howMany;
 
-            if ((int)Month > 12)
+            if (Month > 12)
             {
                 Year++;
                 Month -= 12;
