@@ -2,8 +2,8 @@
 {
     public class Date
     {
-        private const ushort DaysInYear = 360;
-        private const byte DaysInMonth = 30;
+        private const ushort DAYS_IN_YEAR = 360;
+        private const byte DAYS_IN_MONTH = 30;
 
         private int year;
         private int month;
@@ -41,11 +41,11 @@
 
         public void AddDays(int howMany)
         {
-            var years = howMany / DaysInYear;
-            howMany -= years * DaysInYear;
+            var years = howMany / DAYS_IN_YEAR;
+            howMany -= years * DAYS_IN_YEAR;
 
-            var monthAdded = howMany / DaysInMonth;
-            howMany -= monthAdded * DaysInMonth;
+            var monthAdded = howMany / DAYS_IN_MONTH;
+            howMany -= monthAdded * DAYS_IN_MONTH;
 
             Year += years;
             Month += monthAdded;

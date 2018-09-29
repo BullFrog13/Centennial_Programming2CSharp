@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using System.Threading;
 
 namespace Lab_2
 {
