@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Lab_1
+﻿namespace Lab_1
 {
     public class Rectangle
     {
@@ -9,12 +7,12 @@ namespace Lab_1
 
         public double Width
         {
-            get => width;
+            get { return width; }
             set
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException($"Width cannot be equal or less than 0. Value: {value} is incorrect");
+                    width = 1;
                 }
 
                 width = value;
@@ -23,12 +21,12 @@ namespace Lab_1
 
         public double Height
         {
-            get => height;
+            get { return height; }
             set
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentException($"Height cannot be equal or less than 0. Value: {value} is incorrect");
+                    height = 1;
                 }
 
                 height = value;

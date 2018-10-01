@@ -12,32 +12,32 @@ namespace Lab_2
 
         public int Year
         {
-            get => year;
-            set => year = value;
+            get { return year; }
+            set { year = value; }
         }
 
         public string Manufacturer
         {
-            get => manufacturer;
-            set => manufacturer = value;
+            get { return manufacturer; }
+            set { manufacturer = value; }
         }
 
         public string Model
         {
-            get => model;
-            set => model = value;
+            get { return model; }
+            set { model = value; }
         }
 
         public bool IsDrivable
         {
-            get => isDrivable;
-            set => isDrivable = value;
+            get { return isDrivable; }
+            set { isDrivable = value; }
         }
 
         public double Price
         {
-            get => price;
-            set => price = value;
+            get { return price; }
+            set { price = value; }
         }
 
         public Car(int year, string manufacturer, string model, bool isDrivable, double price)

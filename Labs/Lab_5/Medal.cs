@@ -12,32 +12,32 @@ namespace Lab_5
 
         public Colors Color
         {
-            get => colors;
-            private set => colors = value;
+            get { return colors; }
+            private set { colors = value; }
         }
 
         public bool IsRecord
         {
-            get => isRecord;
-            private set => isRecord = value;
+            get { return isRecord; }
+            private set { isRecord = value; }
         }
 
         public string Name
         {
-            get => name;
-            private set => name = value;
+            get { return name; }
+            private set { name = value; }
         }
 
         public string TheEvent
         {
-            get => theEvent;
-            private set => theEvent = value;
+            get { return theEvent; }
+            private set { theEvent = value; }
         }
 
         public int Year
         {
-            get => year;
-            private set => year = value;
+            get { return year; }
+            private set { year = value; }
         }
 
         public Medal(string name, string theEvent, string color, int year, bool isRecord)

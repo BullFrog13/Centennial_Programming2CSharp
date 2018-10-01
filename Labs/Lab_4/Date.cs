@@ -10,20 +10,20 @@ namespace Lab_4
 
         public int Year
         {
-            get => year;
-            set => year = value;
+            get { return year; }
+            set { year = value; }
         }
 
         public Months Month
         {
-            get => month;
-            set => month = value;
+            get { return month; }
+            set { month = value; }
         }
 
         public int Day
         {
-            get => day;
-            set => day = value;
+            get { return day; }
+            set { day = value; }
         }
 
         public Date(int year, int month, int day)
