@@ -2,7 +2,7 @@
 {
     public class Astronaut
     {
-        public static int ASTRONAUT_COUNT = 0;
+        public static int Count = 0;
         private const int THRESHOLD = 5;
 
         public string Name { get; private set; }
@@ -13,12 +13,17 @@
             Name = name;
             Nationality = nationality;
 
-            ASTRONAUT_COUNT++;
+            Count++;
         }
 
-        public Astronaut CreateAstronaut(string name, string nationality)
+        public static Astronaut CreateAstronaut(string name, string nationality)
         {
-            return ASTRONAUT_COUNT < THRESHOLD ? new Astronaut(name, nationality) : null;
+            return Count < THRESHOLD ? new Astronaut(name, nationality) : null;
+        }
+
+        public void ChangeAstronautNumber(int number)
+        {
+            Count = number;
         }
 
         public override string ToString()

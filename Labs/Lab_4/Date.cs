@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace Lab_4
+﻿namespace Lab_4
 {
     public class Date
     {
+        private const int DAYS_IN_YEAR = 365;
+
         private int year;
         private Months month;
         private int day;
@@ -40,13 +40,66 @@ namespace Lab_4
 
         public void AddDays(int howMany)
         {
-            var dateTimeDate = new DateTime(Year, (int)Month, Day);
+            var years = howMany / DAYS_IN_YEAR;
+            Year += years;
+            howMany -= years * DAYS_IN_YEAR;
 
-            var newDateTime = dateTimeDate.AddDays(howMany);
+            var daysUntilNextMonth = GetMonthDays(Month) - Day;
 
-            Day = newDateTime.Day;
-            Month = (Months)newDateTime.Month;
-            Year = newDateTime.Year;
+            if (howMany <= daysUntilNextMonth)
+            {
+                Day += howMany;
+
+                return;
+            }
+
+            Day = 1;
+            AddMonth();
+            howMany -= daysUntilNextMonth + 1;
+
+            while (howMany != 0)
+            {
+                if (howMany < GetMonthDays(Month))
+                {
+                    Day += howMany;
+                    howMany = 0;
+                }
+                else
+                {
+                    Day = 1;
+                    howMany -= GetMonthDays(Month);
+                    AddMonth();
+                }
+            }
+        }
+
+        private void AddMonth()
+        {
+            if (Month == Months.Dec)
+            {
+                Month = Months.Jan;
+                Year++;
+            }
+            else
+            {
+                Month++;
+            }
+        }
+
+        private int GetMonthDays(Months month)
+        {
+            switch (month)
+            {
+                case Months.Feb:
+                    return 28;
+                case Months.Apr:
+                case Months.Jun:
+                case Months.Sep:
+                case Months.Nov:
+                    return 30;
+                default:
+                    return 31;
+            }
         }
     }
 }
