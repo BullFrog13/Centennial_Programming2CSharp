@@ -1,21 +1,32 @@
 ﻿using System;
 using System.Text;
-using Assessment_1.Utils;
+using Assessment_2.Utils;
 
-namespace Assessment_1.Models
+namespace Assessment_2.Models
 {
     public class Registrant
     {
-        private const uint MINIMUM_PHONE_NUMBER = 1000000000;
-        private const long MAXIMUM_PHONE_NUMBER = 9999999999;
+        #region Statics
 
-        private static readonly int[] RegistrantsIds = new int[1000];
+        private static readonly uint MINIMUM_PHONE_NUMBER = 1000000000;
+        private static readonly long MAXIMUM_PHONE_NUMBER = 9999999999;
+
+        private static readonly int[] RegistrantsIds = new int[50];
+
+        #endregion
+
+        #region Fields
 
         private int registrationNumber;
         private string name;
         private DateTime dateOfBirth;
         private Address address;
         private long phoneNumber;
+        private Club club;
+
+        #endregion
+
+        #region Properties
 
         public int RegistrationNumber
         {
@@ -66,18 +77,37 @@ namespace Assessment_1.Models
             }
         }
 
-        public Registrant() : this(0, "Default_Name", new DateTime(), new Address("Default_Street", "0", "000000", "Default_City"), MINIMUM_PHONE_NUMBER)
+        public Club Club
         {
+            get { return club; }
+            set
+            {
+                if (club != null)
+                {
+                    throw new Exception($"Swimmer already assigned to {Club.Name} club");
+                }
 
+                club = value;
+            }
         }
 
-        public Registrant(int registrationNumber, string name, DateTime dateOfBirth, Address address, long phoneNumber)
+        #endregion
+
+        public Registrant() : this(
+            "Default_Name",
+            new DateTime(),
+            new Address("Default_Street", "0", "000000", "Default_City"),
+            MINIMUM_PHONE_NUMBER)
         {
-            RegistrationNumber = registrationNumber;
+        }
+
+        public Registrant(string name, DateTime dateOfBirth, Address address, long phoneNumber, int registrationNumber = 0)
+        {
             Name = name;
             DateOfBirth = dateOfBirth;
             Address = address;
             PhoneNumber = phoneNumber;
+            RegistrationNumber = registrationNumber == 0 ? Helpers.GenerateUniqueId(RegistrantsIds) : registrationNumber;
         }
 
         public string GetInfo()

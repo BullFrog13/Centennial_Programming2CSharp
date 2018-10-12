@@ -1,12 +1,11 @@
-﻿using System;
-
-namespace Assessment_1.Models
+﻿namespace Assessment_2.Models
 {
     public class Swim
     {
         private ushort heat;
         private byte lane;
-        private TimeSpan finalSwimTime;
+        private string finalSwimTime;
+        private Registrant registrant;
 
         public ushort Heat
         {
@@ -20,32 +19,28 @@ namespace Assessment_1.Models
             set { lane = value; }
         }
 
-        public TimeSpan FinalSwimTime
+        public string FinalSwimTime
         {
             get { return finalSwimTime; }
-            set
-            {
-                if (value < TimeSpan.Zero || value > TimeSpan.FromDays(1))
-                {
-                    finalSwimTime = TimeSpan.Zero;
-                }
-                else
-                {
-                    finalSwimTime = value;
-                }
-            }
+            set { finalSwimTime = value; }
         }
 
-        public Swim() : this(0, 0, TimeSpan.Zero)
+        public Registrant Registrant
         {
-
+            get { return registrant; }
+            set { registrant = value; }
         }
 
-        public Swim(ushort heat, byte lane, TimeSpan finalSwimTime)
+        public Swim() : this(0, 0, string.Empty, new Registrant())
+        {
+        }
+
+        public Swim(ushort heat, byte lane, string finalSwimTime, Registrant registrant)
         {
             Heat = heat;
             Lane = lane;
             FinalSwimTime = finalSwimTime;
+            Registrant = registrant;
         }
 
         public string GetInfo()

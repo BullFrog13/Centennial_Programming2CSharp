@@ -1,14 +1,25 @@
 ﻿using System;
 using System.Text;
 
-namespace Assessment_1.Models
+namespace Assessment_2.Models
 {
     public class SwimMeet
     {
+        private static readonly byte MAXIMUM_NO_OF_EVENTS = 50;
+
+        #region Fields
+
         private DateTime startDate;
         private DateTime endDate;
         private string name;
-        private PoolType course;
+        private readonly PoolType course;
+        private byte noOfLanes;
+        private byte eventCounter;
+        private readonly Event[] events = new Event[MAXIMUM_NO_OF_EVENTS];
+
+        #endregion
+
+        #region Properties
 
         public DateTime StartDate
         {
@@ -51,20 +62,41 @@ namespace Assessment_1.Models
         public PoolType Course
         {
             get { return course; }
-            set { course = value; }
         }
 
-        public SwimMeet() : this(new DateTime(), new DateTime(), "Default_Name", PoolType.SCM)
+        public byte NoOfLanes
         {
-
+            get { return noOfLanes; }
+            set { noOfLanes = value; }
         }
 
-        public SwimMeet(DateTime startDate, DateTime endDate, string name, PoolType course)
+        #endregion
+
+        public SwimMeet() : this("Default_Name", new DateTime(), new DateTime(), PoolType.SCM, 5)
+        {
+        }
+
+        public SwimMeet(string name, DateTime startDate, DateTime endDate, PoolType course, byte noOfLanes)
         {
             StartDate = startDate;
             EndDate = endDate;
             Name = name;
-            Course = course;
+            this.course = course;
+            NoOfLanes = noOfLanes;
+        }
+
+        public void AddEvent(Event @event)
+        {
+            events[eventCounter++] = @event;
+            @event.SwimMeet = this;
+        }
+
+        public void Seed()
+        {
+            foreach (var @event in events)
+            {
+                @event?.Seed();
+            }
         }
 
         public string GetInfo()

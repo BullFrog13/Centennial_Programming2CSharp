@@ -1,19 +1,34 @@
-﻿using System.Text;
-using Assessment_1.Utils;
+﻿using System;
+using System.Text;
+using Assessment_2.Utils;
 
-namespace Assessment_1.Models
+namespace Assessment_2.Models
 {
     public class Club
     {
-        private const int MINIMUM_PHONE_NUMBER = 1000000000;
-        private const long MAXIMUM_PHONE_NUMBER = 9999999999;
+        #region Statics
 
-        private static readonly int[] ClubIds = new int[1000];
+        private static readonly int MINIMUM_PHONE_NUMBER = 1000000000;
+        private static readonly long MAXIMUM_PHONE_NUMBER = 9999999999;
+        private static readonly byte MAXIMUM_NUMBER_OF_MEMBERS = 20;
+
+        private static readonly int[] ClubIds = new int[20];
+
+        #endregion
+
+        #region Fields
 
         private int registrationNumber;
         private string name;
         private long phoneNumber;
         private Address address;
+
+        private readonly Registrant[] Swimmers = new Registrant[MAXIMUM_NUMBER_OF_MEMBERS];
+        private byte registrantCounter;
+
+        #endregion
+
+        #region Properties
 
         public Address Address
         {
@@ -58,17 +73,32 @@ namespace Assessment_1.Models
             }
         }
 
-        public Club() : this(0, "Default_Name", MINIMUM_PHONE_NUMBER, new Address("Default_Street", "0", "000000", "Default_City"))
-        {
+        #endregion
 
+        public Club() : this(
+            "Default_Name",
+            new Address("Default_Street", "0", "000000", "Default_City"),
+            MINIMUM_PHONE_NUMBER)
+        {
         }
 
-        public Club(int registrationNumber, string name, long phoneNumber, Address address)
+        public Club(string name, Address address, long phoneNumber, int registrationNumber = 0)
         {
-            RegistrationNumber = registrationNumber;
             Name = name;
-            PhoneNumber = phoneNumber;
             Address = address;
+            PhoneNumber = phoneNumber;
+            RegistrationNumber = registrationNumber == 0 ? Helpers.GenerateUniqueId(ClubIds) : registrationNumber;
+        }
+
+        public void AddSwimmer(Registrant registrant)
+        {
+            if (registrant.Club != null)
+            {
+                throw new Exception($"Swimmer already assigned to {registrant.Club.Name} club");
+            }
+
+            registrant.Club = this;
+            Swimmers[registrantCounter++] = registrant;
         }
 
         public string GetInfo()

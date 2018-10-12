@@ -1,4 +1,4 @@
-﻿namespace Assessment_1.Models
+﻿namespace Assessment_2.Models
 {
     public enum PoolType
     {

@@ -1,8 +1,8 @@
-﻿namespace Assessment_1.Models
+﻿namespace Assessment_2.Models
 {
     public struct Address
     {
-        private string number;
+        private string province;
         private string street;
         private string zipCode;
         private string city;
@@ -13,10 +13,10 @@
             set { street = string.IsNullOrEmpty(value) ? "Default_Street" : value; }
         }
 
-        public string Number
+        public string Province
         {
-            get { return number; }
-            set { number = string.IsNullOrEmpty(value) ? "Default_Number" : value; }
+            get { return province; }
+            set { province = string.IsNullOrEmpty(value) ? "Default_Province" : value; }
         }
 
         public string ZipCode
@@ -31,17 +31,17 @@
             set { city = string.IsNullOrEmpty(value) ? "Default_City" : value; }
         }
 
-        public Address(string street, string number, string zipCode, string city) : this()
+        public Address(string street, string city, string province, string zipCode) : this()
         {
             Street = street;
-            Number = number;
+            Province = province;
             ZipCode = zipCode;
             City = city;
         }
 
         public string GetInfo()
         {
-            return $"Address: {Number} {Street}, {ZipCode}, {City}";
+            return $"Address: {Province} {Street}, {ZipCode}, {City}";
         }
     }
 }

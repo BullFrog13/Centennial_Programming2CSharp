@@ -1,6 +1,6 @@
-﻿namespace Assessment_1.Models
+﻿namespace Assessment_2.Models
 {
-    public enum Strokes
+    public enum Stroke
     {
         Butterfly,
         Backstroke,

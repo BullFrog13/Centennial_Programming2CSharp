@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{6F7700D0-B2E0-40DB-9DE3-4032A63EE8EF}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Assessment_1</RootNamespace>
-    <AssemblyName>Assessment_1</AssemblyName>
+    <RootNamespace>Assessment_2</RootNamespace>
+    <AssemblyName>Assessment_2</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -45,13 +45,13 @@
   <ItemGroup>
     <Compile Include="Models\Address.cs" />
     <Compile Include="Models\Club.cs" />
-    <Compile Include="Models\Distances.cs" />
+    <Compile Include="Models\EventDistance.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\PoolType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\Registrant.cs" />
-    <Compile Include="Models\Strokes.cs" />
+    <Compile Include="Models\Stroke.cs" />
     <Compile Include="Models\Swim.cs" />
     <Compile Include="Models\SwimMeet.cs" />
     <Compile Include="Utils\Helpers.cs" />

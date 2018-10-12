@@ -1,9 +1,12 @@
 ﻿using System;
 
-namespace Assessment_1.Utils
+namespace Assessment_2.Utils
 {
     public static class Helpers
     {
+        private static readonly Random Random = new Random();
+        private static readonly object Synclock = new object();
+
         public static bool CheckIfIdExists(int[] ids, int value)
         {
             foreach (var id in ids)
@@ -19,8 +22,11 @@ namespace Assessment_1.Utils
 
         public static int GenerateUniqueId(int[] ids)
         {
-            var random = new Random();
-            var newId = random.Next(0, int.MaxValue);
+            int newId;
+            lock (Synclock)
+            {
+                newId = Random.Next(0, int.MaxValue);
+            }
 
             if (CheckIfIdExists(ids, newId))
             {
