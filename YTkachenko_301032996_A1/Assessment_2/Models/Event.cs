@@ -101,8 +101,15 @@ namespace Assessment_2.Models
         public string GetInfo()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"Distance: {(int)Distance}m\n");
-            stringBuilder.Append($"Strokes: {Stroke}");
+            stringBuilder.Append($"{(int)Distance} {Stroke}\n");
+            stringBuilder.Append("\tSwimmers:\n");
+            foreach (var swim in swims)
+            {
+                if (swim != null)
+                {
+                    stringBuilder.Append($"{swim.GetInfo()}\n");
+                }
+            }
 
             return stringBuilder.ToString();
         }

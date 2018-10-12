@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 
 namespace Assessment_2.Models
@@ -72,7 +73,7 @@ namespace Assessment_2.Models
 
         #endregion
 
-        public SwimMeet() : this("Default_Name", new DateTime(), new DateTime(), PoolType.SCM, 5)
+        public SwimMeet() : this("Default_Name", new DateTime(), new DateTime(), PoolType.SCM, 8)
         {
         }
 
@@ -102,10 +103,21 @@ namespace Assessment_2.Models
         public string GetInfo()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"Swim meet starting date: {StartDate:D}\n");
-            stringBuilder.Append($"Swim meet ending date: {EndDate:D}\n");
             stringBuilder.Append($"Swim meet name: {Name}\n");
-            stringBuilder.Append($"Swim meet course: {Course.ToString()}");
+            stringBuilder.Append(
+                $"From-to: {StartDate.ToString("yyyy-MM-dd", CultureInfo.CreateSpecificCulture("en"))} to " +
+                $"{EndDate.ToString("yyyy-MM-dd", CultureInfo.CreateSpecificCulture("en"))}\n");
+            stringBuilder.Append($"Pool type: {Course.ToString()}\n");
+            stringBuilder.Append($"No lanes: {NoOfLanes}\n");
+            stringBuilder.Append("Events: \n");
+
+            foreach (var @event in events)
+            {
+                if (@event != null)
+                {
+                    stringBuilder.Append($"\t{@event.GetInfo()}\n");
+                }
+            }
 
             return stringBuilder.ToString();
         }

@@ -1,4 +1,6 @@
-﻿namespace Assessment_2.Models
+﻿using System.Text;
+
+namespace Assessment_2.Models
 {
     public class Swim
     {
@@ -45,7 +47,22 @@
 
         public string GetInfo()
         {
-            return $"Heat: {Heat}\nLane: {Lane}\nFinal swim time: {FinalSwimTime}";
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append($"\t{Registrant.Name}\n\t");
+
+            if (Heat == 0 || Lane == 0)
+            {
+                stringBuilder.Append("\tNot seeded/no swim");
+            }
+            else
+            {
+                stringBuilder.Append($"\tH{Heat}L{Lane}");
+                stringBuilder.Append(string.IsNullOrEmpty(FinalSwimTime)
+                    ? "  time: no time"
+                    : $"  time: {FinalSwimTime}");
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

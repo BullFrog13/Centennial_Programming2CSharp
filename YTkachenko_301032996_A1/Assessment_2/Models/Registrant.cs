@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using Assessment_2.Utils;
 
@@ -10,6 +11,7 @@ namespace Assessment_2.Models
 
         private static readonly uint MINIMUM_PHONE_NUMBER = 1000000000;
         private static readonly long MAXIMUM_PHONE_NUMBER = 9999999999;
+        private static readonly byte DEFAULT_PHONE_NUMBER = 0;
 
         private static readonly int[] RegistrantsIds = new int[50];
 
@@ -46,7 +48,7 @@ namespace Assessment_2.Models
         public string Name
         {
             get { return name; }
-            set { name = string.IsNullOrEmpty(value) ? "Default_Name" : value; }
+            set { name = value; }
         }
 
         public DateTime DateOfBirth
@@ -68,7 +70,7 @@ namespace Assessment_2.Models
             {
                 if (value < MINIMUM_PHONE_NUMBER || value > MAXIMUM_PHONE_NUMBER)
                 {
-                    phoneNumber = MINIMUM_PHONE_NUMBER;
+                    phoneNumber = DEFAULT_PHONE_NUMBER;
                 }
                 else
                 {
@@ -80,24 +82,16 @@ namespace Assessment_2.Models
         public Club Club
         {
             get { return club; }
-            set
-            {
-                if (club != null)
-                {
-                    throw new Exception($"Swimmer already assigned to {Club.Name} club");
-                }
-
-                club = value;
-            }
+            set { value.AddSwimmer(this); }
         }
 
         #endregion
 
         public Registrant() : this(
-            "Default_Name",
+            string.Empty,
             new DateTime(),
             new Address("Default_Street", "0", "000000", "Default_City"),
-            MINIMUM_PHONE_NUMBER)
+            DEFAULT_PHONE_NUMBER)
         {
         }
 
@@ -110,14 +104,27 @@ namespace Assessment_2.Models
             RegistrationNumber = registrationNumber == 0 ? Helpers.GenerateUniqueId(RegistrantsIds) : registrationNumber;
         }
 
+        public void AddClub(Club club, bool fromClubMethod = false)
+        {
+            if (fromClubMethod)
+            {
+                this.club = club;
+            }
+            else
+            {
+                Club = club;
+            }
+        }
+
         public string GetInfo()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"Registration number: {RegistrationNumber}\n");
             stringBuilder.Append($"Name: {Name}\n");
-            stringBuilder.Append($"Date of birth: {DateOfBirth:D}\n");
-            stringBuilder.Append($"Phone number: {PhoneNumber}\n");
             stringBuilder.Append(Address.GetInfo());
+            stringBuilder.Append($"Phone: {PhoneNumber}\n");
+            stringBuilder.Append($"DOB: {DateOfBirth.ToString("yyyy-MM-dd hh:mm:ss tt", CultureInfo.CreateSpecificCulture("en"))}\n");
+            stringBuilder.Append($"Reg number: {RegistrationNumber}\n");
+            stringBuilder.Append(Club == null ? "Club: not assigned" : $"Club: {Club.Name}\n");
 
             return stringBuilder.ToString();
         }

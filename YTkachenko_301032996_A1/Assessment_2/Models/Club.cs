@@ -10,6 +10,7 @@ namespace Assessment_2.Models
 
         private static readonly int MINIMUM_PHONE_NUMBER = 1000000000;
         private static readonly long MAXIMUM_PHONE_NUMBER = 9999999999;
+        private static readonly byte DEFAULT_PHONE_NUMBER = 0;
         private static readonly byte MAXIMUM_NUMBER_OF_MEMBERS = 20;
 
         private static readonly int[] ClubIds = new int[20];
@@ -64,7 +65,7 @@ namespace Assessment_2.Models
             {
                 if (value < MINIMUM_PHONE_NUMBER || value > MAXIMUM_PHONE_NUMBER)
                 {
-                    phoneNumber = MINIMUM_PHONE_NUMBER;
+                    phoneNumber = DEFAULT_PHONE_NUMBER;
                 }
                 else
                 {
@@ -78,7 +79,7 @@ namespace Assessment_2.Models
         public Club() : this(
             "Default_Name",
             new Address("Default_Street", "0", "000000", "Default_City"),
-            MINIMUM_PHONE_NUMBER)
+            DEFAULT_PHONE_NUMBER)
         {
         }
 
@@ -92,22 +93,48 @@ namespace Assessment_2.Models
 
         public void AddSwimmer(Registrant registrant)
         {
-            if (registrant.Club != null)
+            if (IsSwimmerRegistered(registrant) || registrant.Club != null)
             {
                 throw new Exception($"Swimmer already assigned to {registrant.Club.Name} club");
             }
 
-            registrant.Club = this;
+            registrant.AddClub(this, true);
+
             Swimmers[registrantCounter++] = registrant;
+        }
+
+        public bool IsSwimmerRegistered(Registrant registrant)
+        {
+            foreach (var swimmer in Swimmers)
+            {
+                if (swimmer != null)
+                {
+                    if (swimmer.RegistrationNumber == registrant.RegistrationNumber)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public string GetInfo()
         {
             var stringBuilder = new StringBuilder();
-            stringBuilder.Append($"Registration number: {RegistrationNumber}\n");
             stringBuilder.Append($"Name: {Name}\n");
-            stringBuilder.Append($"Phone number: {PhoneNumber}\n");
             stringBuilder.Append(Address.GetInfo());
+            stringBuilder.Append($"Phone: {PhoneNumber}\n");
+            stringBuilder.Append($"Reg number: {RegistrationNumber}\n");
+            stringBuilder.Append("Swimmers:\n");
+
+            foreach (var swimmer in Swimmers)
+            {
+                if (swimmer != null)
+                {
+                    stringBuilder.Append($"\t{swimmer.Name}\n");
+                }
+            }
 
             return stringBuilder.ToString();
         }

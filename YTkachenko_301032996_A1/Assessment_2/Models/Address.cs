@@ -41,7 +41,7 @@
 
         public string GetInfo()
         {
-            return $"Address: {Province} {Street}, {ZipCode}, {City}";
+            return $"Address:\n\t{Street}\n\t{City}\n\t{Province}\n\t{ZipCode}\n";
         }
     }
 }
