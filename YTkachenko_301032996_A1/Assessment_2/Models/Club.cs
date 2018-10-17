@@ -95,7 +95,7 @@ namespace Assessment_2.Models
         {
             if (IsSwimmerRegistered(registrant) || registrant.Club != null)
             {
-                throw new Exception($"Swimmer already assigned to {registrant.Club.Name} club");
+                throw new Exception("Swimmer is registered with a different club");
             }
 
             registrant.AddClub(this, true);
