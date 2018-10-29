@@ -1,5 +1,6 @@
 ﻿using System;
-using Assessment_2.Models;
+using BusinessLogic.Managers;
+using BusinessLogic.Models;
 
 namespace Assessment_2
 {
@@ -7,6 +8,31 @@ namespace Assessment_2
     {
         static void Main(string[] args)
         {
+            ClubsManager clbMngr = new ClubsManager();
+            SwimmersManager swmMngr = new SwimmersManager(clbMngr);
+
+            try
+            {
+                clbMngr.LoadClubs(@"C:\A2\Clubs.txt", ",");
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+
+            for (int i = 0; i < clbMngr.NumberOfClubs; i++)
+            {
+                DisplayInfo(i.ToString(), clbMngr.Clubs[i].GetInfo());
+            }
+
+
+            swmMngr.LoadSwimmers(@"C:\A2\Swimmers.txt", ",");
+
+            for (int i = 0; i < swmMngr.NumberOfSwimmers; i++)
+            {
+                DisplayInfo(i.ToString(), swmMngr.Swimmers[i].GetInfo());
+            }
             // Create 3 swimmers
             Registrant swimmer1;
             Registrant swimmer2;
@@ -43,8 +69,6 @@ namespace Assessment_2
 
             EnterTimesForSwims(swimmer1, swimmer2, swimmer3, meet1, meet2,
                                _50free1, _100fly, _200breast, _400free, _1500free);
-
-            Console.ReadKey();
         }
 
         private static void EnterTimesForSwims(Registrant swimmer1, Registrant swimmer2, Registrant swimmer3, SwimMeet meet1, SwimMeet meet2, Event _50free1, Event _100fly, Event _200breast, Event _400free, Event _1500free)

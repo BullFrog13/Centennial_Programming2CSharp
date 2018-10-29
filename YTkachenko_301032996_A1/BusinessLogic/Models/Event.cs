@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Assessment_2.Models
+namespace BusinessLogic.Models
 {
     public class Event
     {

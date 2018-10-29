@@ -4,18 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6F7700D0-B2E0-40DB-9DE3-4032A63EE8EF}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Assessment_2</RootNamespace>
-    <AssemblyName>Assessment_2</AssemblyName>
+    <ProjectGuid>{E7C1060D-FD48-49E1-A250-4E0E0C59FDFB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BusinessLogic</RootNamespace>
+    <AssemblyName>BusinessLogic</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -25,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -44,17 +41,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Managers\ClubsManager.cs" />
+    <Compile Include="Managers\SwimmersManager.cs" />
+    <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\Club.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\EventDistance.cs" />
+    <Compile Include="Models\PoolType.cs" />
+    <Compile Include="Models\Registrant.cs" />
+    <Compile Include="Models\Stroke.cs" />
+    <Compile Include="Models\Swim.cs" />
+    <Compile Include="Models\SwimMeet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\BusinessLogic\BusinessLogic.csproj">
-      <Project>{e7c1060d-fd48-49e1-a250-4e0e0c59fdfb}</Project>
-      <Name>BusinessLogic</Name>
-    </ProjectReference>
+    <Compile Include="Utils\Helpers.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

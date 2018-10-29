@@ -1,4 +1,4 @@
-﻿namespace Assessment_2.Models
+﻿namespace BusinessLogic.Models
 {
     public enum PoolType
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Assessment_2.Utils
+namespace BusinessLogic.Utils
 {
     public static class Helpers
     {

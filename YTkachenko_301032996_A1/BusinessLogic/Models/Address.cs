@@ -1,4 +1,4 @@
-﻿namespace Assessment_2.Models
+﻿namespace BusinessLogic.Models
 {
     public struct Address
     {
@@ -10,25 +10,25 @@
         public string Street
         {
             get { return street; }
-            set { street = string.IsNullOrEmpty(value) ? "Default_Street" : value; }
+            set { street = string.IsNullOrEmpty(value) ? "" : value; }
         }
 
         public string Province
         {
             get { return province; }
-            set { province = string.IsNullOrEmpty(value) ? "Default_Province" : value; }
+            set { province = string.IsNullOrEmpty(value) ? "" : value; }
         }
 
         public string ZipCode
         {
             get { return zipCode; }
-            set { zipCode = string.IsNullOrEmpty(value) ? "Default_ZipCode" : value; }
+            set { zipCode = string.IsNullOrEmpty(value) ? "" : value; }
         }
 
         public string City
         {
             get { return city; }
-            set { city = string.IsNullOrEmpty(value) ? "Default_City" : value; }
+            set { city = string.IsNullOrEmpty(value) ? "" : value; }
         }
 
         public Address(string street, string city, string province, string zipCode) : this()

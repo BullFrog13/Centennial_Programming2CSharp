@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Text;
-using Assessment_2.Utils;
+using BusinessLogic.Utils;
 
-namespace Assessment_2.Models
+namespace BusinessLogic.Models
 {
     public class Registrant
     {

@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Assessment_2.Models
+namespace BusinessLogic.Models
 {
     public class SwimMeet
     {

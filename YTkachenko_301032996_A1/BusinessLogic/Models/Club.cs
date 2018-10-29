@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Text;
-using Assessment_2.Utils;
+using BusinessLogic.Utils;
 
-namespace Assessment_2.Models
+namespace BusinessLogic.Models
 {
     public class Club
     {
@@ -42,7 +42,7 @@ namespace Assessment_2.Models
             get { return registrationNumber; }
             set
             {
-                if (value < 1 || Helpers.CheckIfIdExists(ClubIds, value))
+                if (value < 1)
                 {
                     value = Helpers.GenerateUniqueId(ClubIds);
                 }
@@ -76,10 +76,7 @@ namespace Assessment_2.Models
 
         #endregion
 
-        public Club() : this(
-            "Default_Name",
-            new Address("Default_Street", "0", "000000", "Default_City"),
-            DEFAULT_PHONE_NUMBER)
+        public Club() : this("", new Address("", "", "", ""), 0)
         {
         }
 
