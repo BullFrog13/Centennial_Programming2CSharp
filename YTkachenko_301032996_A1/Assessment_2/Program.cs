@@ -26,7 +26,6 @@ namespace Assessment_2
                 DisplayInfo(i.ToString(), clbMngr.Clubs[i].GetInfo());
             }
 
-
             swmMngr.LoadSwimmers(@"C:\A2\Swimmers.txt", ",");
 
             for (int i = 0; i < swmMngr.NumberOfSwimmers; i++)

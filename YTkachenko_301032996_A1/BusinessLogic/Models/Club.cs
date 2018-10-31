@@ -42,7 +42,7 @@ namespace BusinessLogic.Models
             get { return registrationNumber; }
             set
             {
-                if (value < 1)
+                if (value < 0)
                 {
                     value = Helpers.GenerateUniqueId(ClubIds);
                 }
@@ -80,12 +80,12 @@ namespace BusinessLogic.Models
         {
         }
 
-        public Club(string name, Address address, long phoneNumber, int registrationNumber = 0)
+        public Club(string name, Address address, long phoneNumber, int registrationNumber = -1)
         {
             Name = name;
             Address = address;
             PhoneNumber = phoneNumber;
-            RegistrationNumber = registrationNumber == 0 ? Helpers.GenerateUniqueId(ClubIds) : registrationNumber;
+            RegistrationNumber = registrationNumber == -1 ? Helpers.GenerateUniqueId(ClubIds) : registrationNumber;
         }
 
         public void AddSwimmer(Registrant registrant)

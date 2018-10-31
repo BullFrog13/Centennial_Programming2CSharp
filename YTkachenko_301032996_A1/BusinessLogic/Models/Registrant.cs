@@ -35,7 +35,7 @@ namespace BusinessLogic.Models
             get { return registrationNumber; }
             set
             {
-                if (value < 1 || Helpers.CheckIfIdExists(RegistrantsIds, value))
+                if (value < 0)
                 {
                     value = Helpers.GenerateUniqueId(RegistrantsIds);
                 }
@@ -90,18 +90,18 @@ namespace BusinessLogic.Models
         public Registrant() : this(
             string.Empty,
             new DateTime(),
-            new Address("Default_Street", "0", "000000", "Default_City"),
-            DEFAULT_PHONE_NUMBER)
+            new Address("", "", "", ""),
+            0)
         {
         }
 
-        public Registrant(string name, DateTime dateOfBirth, Address address, long phoneNumber, int registrationNumber = 0)
+        public Registrant(string name, DateTime dateOfBirth, Address address, long phoneNumber, int registrationNumber = -1)
         {
             Name = name;
             DateOfBirth = dateOfBirth;
             Address = address;
             PhoneNumber = phoneNumber;
-            RegistrationNumber = registrationNumber == 0 ? Helpers.GenerateUniqueId(RegistrantsIds) : registrationNumber;
+            RegistrationNumber = registrationNumber == -1 ? Helpers.GenerateUniqueId(RegistrantsIds) : registrationNumber;
         }
 
         public void AddClub(Club club, bool fromClubMethod = false)

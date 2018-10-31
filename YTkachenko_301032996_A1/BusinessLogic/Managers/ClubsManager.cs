@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using BusinessLogic.Models;
+using BusinessLogic.Utils;
 
 namespace BusinessLogic.Managers
 {
@@ -31,7 +32,7 @@ namespace BusinessLogic.Managers
 
         public void AddClub(Club club)
         {
-            if (NumberOfClubs >= 100)
+            if (NumberOfClubs >= MAXIMUM_NO_OF_CLUBS)
             {
                 throw new Exception("Reached maximum number of clubs");
             }
@@ -58,54 +59,77 @@ namespace BusinessLogic.Managers
             return null;
         }
 
-        public void LoadClubs(string fileName, string delimiter) // ?delimiter is char not string!
+        public void LoadClubs(string fileName, string delimiter)
         {
-            using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read)) // ? can i use using keyword?
-            using(var reader = new StreamReader(stream))
+            var exceptionQueue = new ExceptionQueue();
+
+            var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            var reader = new StreamReader(stream);
+            
+            string record = reader.ReadLine();
+
+            while (record != null)
             {
-                string record = reader.ReadLine();
+                string[] fields = record.Split(delimiter[0]);
 
-                while (record != null)
+                bool isValidRegNumber = int.TryParse(fields[0], out var regNumber);
+                bool isValidPhoneNumber = long.TryParse(fields[6], out var phoneNumber);
+                var clubAddress = new Address(fields[2], fields[3], fields[4], fields[5]);
+
+                if (!isValidRegNumber || !isValidPhoneNumber)
                 {
-                    string[] fields = record.Split(delimiter[0]);
-
-                    bool isValidRegNumber = int.TryParse(fields[0], out var regNumber);
-                    bool isValidPhoneNumber = long.TryParse(fields[6], out var phoneNumber);
-                    var clubAddress = new Address(fields[2], fields[3], fields[4], fields[5]);
-                    var club = new Club(fields[1], clubAddress, phoneNumber, regNumber);
-
                     if (!isValidRegNumber)
                     {
-                        throw new Exception("Invalid club record. Club number is not valid: " +
-                                            GetClubInfoInline(club));
+                        exceptionQueue.Add(new Exception("Invalid club record. Club number is not valid: " +
+                                                         GetClubInfoInline(fields)));
                     }
 
                     if (!isValidPhoneNumber)
                     {
-                        throw new Exception("Invalid club record. Club with the registration number already exists: " +
-                                            GetClubInfoInline(club));
+                        exceptionQueue.Add(new Exception(
+                            "Invalid club record. Phone number wrong format: " +
+                            GetClubInfoInline(fields)));
                     }
 
-                    AddClub(club);
-
                     record = reader.ReadLine();
+                    continue;
                 }
+
+                var club = new Club(fields[1], clubAddress, phoneNumber, regNumber);
+
+                try
+                {
+                    AddClub(club);
+                }
+                catch (Exception ex)
+                {
+                    exceptionQueue.Add(ex);
+                }
+
+                record = reader.ReadLine();
             }
+
+            reader.Close();
+            stream.Close();
+
+            exceptionQueue.ReleaseQueue();
         }
 
         public void SaveClubs(string fileName, string delimiter)
         {
-            using (var stream = new FileStream(fileName, FileMode.Open, FileAccess.Write)) // ? can i use using keyword?
-            using (var writer = new StreamWriter(stream))
+            var stream = new FileStream(fileName, FileMode.Open, FileAccess.Write);
+            var writer = new StreamWriter(stream);
+
+            foreach (var club in Clubs)
             {
-                foreach (var club in Clubs)
+                if (club != null)
                 {
-                    if (club != null)
-                    {
-                        writer.WriteLine(GetClubInfoInline(club));
-                    }
+                    writer.WriteLine(GetClubInfoInline(club));
                 }
             }
+
+            writer.Close();
+            stream.Close();
         }
 
         private bool ClubExists(int regNumber)
@@ -131,6 +155,20 @@ namespace BusinessLogic.Managers
                 Append(club.Address.Province).Append(",").
                 Append(club.Address.ZipCode).Append(",").
                 Append(club.PhoneNumber);
+
+            return stringBuilder.ToString();
+        }
+
+        private string GetClubInfoInline(string[] fields)
+        {
+            var stringBuilder = new StringBuilder(200);
+            stringBuilder.Append(fields[0]).Append(",").
+                Append(fields[1]).Append(",").
+                Append(fields[2]).Append(",").
+                Append(fields[3]).Append(",").
+                Append(fields[4]).Append(",").
+                Append(fields[5]).Append(",").
+                Append(fields[6]);
 
             return stringBuilder.ToString();
         }
