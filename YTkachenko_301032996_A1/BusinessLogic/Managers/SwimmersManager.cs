@@ -12,6 +12,7 @@ namespace BusinessLogic.Managers
         private int numberOfSwimmers;
         private Registrant[] swimmers;
         private readonly ClubsManager clubsManager;
+        private readonly ExceptionQueue exceptionQueue;
 
         public int NumberOfSwimmers
         {
@@ -29,6 +30,14 @@ namespace BusinessLogic.Managers
         {
             Swimmers = new Registrant[MAXIMUM_NO_OF_SWIMMERS];
             this.clubsManager = clubsManager;
+            exceptionQueue = new ExceptionQueue();
+        }
+
+        public SwimmersManager(ClubsManager clubsManager, ExceptionQueue exceptionQueue)
+        {
+            Swimmers = new Registrant[MAXIMUM_NO_OF_SWIMMERS];
+            this.clubsManager = clubsManager;
+            this.exceptionQueue = exceptionQueue;
         }
 
         public void AddSwimmer(Registrant registrant)
@@ -47,7 +56,7 @@ namespace BusinessLogic.Managers
             Swimmers[NumberOfSwimmers++] = registrant;
         }
 
-        public Registrant GetSwimmer(uint regNumber)
+        public Registrant GetSwimmer(int regNumber)
         {
             foreach (var swimmer in Swimmers)
             {
@@ -62,15 +71,36 @@ namespace BusinessLogic.Managers
 
         public void LoadSwimmers(string fileName, string delimiter)
         {
-            var exceptionQueue = new ExceptionQueue();
+            string[] records = Helpers.ReadRecordsFromFile(fileName);
+            ParseSwimmers(records, delimiter);
+        }
 
-            var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-            var reader = new StreamReader(stream);
-            
-            string record = reader.ReadLine();
+        public void SaveSwimmers(string fileName, string delimiter)
+        {
+            var stream = new FileStream(fileName, FileMode.Open, FileAccess.Write);
+            var writer = new StreamWriter(stream);
 
-            while (record != null)
+            foreach (var swimmer in Swimmers)
             {
+                if (swimmer != null)
+                {
+                    writer.WriteLine(GetSwimmerInfoInline(swimmer));
+                }
+            }
+
+            writer.Close();
+            stream.Close();
+        }
+
+        private void ParseSwimmers(string[] records, string delimiter)
+        {
+            foreach (var record in records)
+            {
+                if (record == null)
+                {
+                    continue;
+                }
+
                 string[] fields = record.Split(delimiter[0]);
 
                 bool isValidRegNumber = int.TryParse(fields[0], out var regNumber);
@@ -105,7 +135,6 @@ namespace BusinessLogic.Managers
                                                          GetSwimmerInfoInline(fields)));
                     }
 
-                    record = reader.ReadLine();
                     continue;
                 }
 
@@ -118,46 +147,25 @@ namespace BusinessLogic.Managers
                 catch (Exception ex)
                 {
                     exceptionQueue.Add(ex);
-                    record = reader.ReadLine();
+
                     continue;
                 }
 
                 if (int.TryParse(fields[8], out var clubNumber))
                 {
-                    try
+                    var club = clubsManager.GetClub(clubNumber);
+                    if (club == null)
                     {
-                        swimmer.AddClub(clubsManager.GetClub(clubNumber));
+                        exceptionQueue.Add(new Exception($"Club with id {clubNumber} does not exists"));
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        exceptionQueue.Add(ex);
+                        swimmer.AddClub(club);
                     }
                 }
-
-                record = reader.ReadLine();
             }
-
-            reader.Close();
-            stream.Close();
 
             exceptionQueue.PrintQueue();
-        }
-
-        public void SaveSwimmers(string fileName, string delimiter)
-        {
-            var stream = new FileStream(fileName, FileMode.Open, FileAccess.Write);
-            var writer = new StreamWriter(stream);
-
-            foreach (var swimmer in Swimmers)
-            {
-                if (swimmer != null)
-                {
-                    writer.WriteLine(GetSwimmerInfoInline(swimmer));
-                }
-            }
-
-            writer.Close();
-            stream.Close();
         }
 
         private bool SwimmerExists(int registrantNumber)

@@ -19,13 +19,14 @@ namespace BusinessLogic.Models
 
         #region Fields
 
+        public byte RegistrantCounter;
+
         private int registrationNumber;
         private string name;
         private long phoneNumber;
         private Address address;
 
         private readonly Registrant[] Swimmers = new Registrant[MAXIMUM_NUMBER_OF_MEMBERS];
-        private byte registrantCounter;
 
         #endregion
 
@@ -97,7 +98,7 @@ namespace BusinessLogic.Models
 
             registrant.AddClub(this, true);
 
-            Swimmers[registrantCounter++] = registrant;
+            Swimmers[RegistrantCounter++] = registrant;
         }
 
         public bool IsSwimmerRegistered(Registrant registrant)

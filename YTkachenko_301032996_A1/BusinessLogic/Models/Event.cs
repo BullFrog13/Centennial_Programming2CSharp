@@ -7,23 +7,13 @@ namespace BusinessLogic.Models
     {
         private static readonly byte MAXIMUM_NO_OF_SWIMMERS = 100;
 
-        private Stroke stroke;
-        private EventDistance distance;
         private SwimMeet swimMeet;
         private byte swimCounter;
         private readonly Swim[] swims = new Swim[MAXIMUM_NO_OF_SWIMMERS];
 
-        public Stroke Stroke
-        {
-            get { return stroke; }
-            set { stroke = value; }
-        }
+        public Stroke Stroke { get; set; }
 
-        public EventDistance Distance
-        {
-            get { return distance; }
-            set { distance = value; }
-        }
+        public EventDistance Distance { get; set; }
 
         public SwimMeet SwimMeet
         {
@@ -88,14 +78,24 @@ namespace BusinessLogic.Models
         {
             for (byte i = 0; i < swims.Length; i++)
             {
-                if (swims[i] != null)
+                if (swims[i]?.Registrant.RegistrationNumber == swimmer.RegistrationNumber)
                 {
-                    if (swims[i].Registrant.RegistrationNumber == swimmer.RegistrationNumber)
-                    {
-                        swims[i].FinalSwimTime = time;
-                    }
+                    swims[i].FinalSwimTime = time;
                 }
             }
+        }
+
+        public Swim GetSwim(int registrantId)
+        {
+            foreach (var swim in swims)
+            {
+                if (swim?.Registrant.RegistrationNumber == registrantId)
+                {
+                    return swim;
+                }
+            }
+
+            return null;
         }
 
         public string GetInfo()

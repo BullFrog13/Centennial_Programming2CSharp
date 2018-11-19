@@ -61,15 +61,38 @@ namespace BusinessLogic.Managers
 
         public void LoadClubs(string fileName, string delimiter)
         {
+            string[] records = Helpers.ReadRecordsFromFile(fileName);
+            ParseClubs(records, delimiter);
+        }
+
+        public void SaveClubs(string fileName, string delimiter)
+        {
+            var stream = new FileStream(fileName, FileMode.Open, FileAccess.Write);
+            var writer = new StreamWriter(stream);
+
+            foreach (var club in Clubs)
+            {
+                if (club != null)
+                {
+                    writer.WriteLine(GetClubInfoInline(club));
+                }
+            }
+
+            writer.Close();
+            stream.Close();
+        }
+
+        private void ParseClubs(string[] records, string delimiter)
+        {
             var exceptionQueue = new ExceptionQueue();
 
-            var stream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-            var reader = new StreamReader(stream);
-            
-            string record = reader.ReadLine();
-
-            while (record != null)
+            foreach (var record in records)
             {
+                if (record == null)
+                {
+                    continue;
+                }
+
                 string[] fields = record.Split(delimiter[0]);
 
                 bool isValidRegNumber = int.TryParse(fields[0], out var regNumber);
@@ -91,7 +114,6 @@ namespace BusinessLogic.Managers
                             GetClubInfoInline(fields)));
                     }
 
-                    record = reader.ReadLine();
                     continue;
                 }
 
@@ -105,31 +127,9 @@ namespace BusinessLogic.Managers
                 {
                     exceptionQueue.Add(ex);
                 }
-
-                record = reader.ReadLine();
             }
-
-            reader.Close();
-            stream.Close();
 
             exceptionQueue.ReleaseQueue();
-        }
-
-        public void SaveClubs(string fileName, string delimiter)
-        {
-            var stream = new FileStream(fileName, FileMode.Open, FileAccess.Write);
-            var writer = new StreamWriter(stream);
-
-            foreach (var club in Clubs)
-            {
-                if (club != null)
-                {
-                    writer.WriteLine(GetClubInfoInline(club));
-                }
-            }
-
-            writer.Close();
-            stream.Close();
         }
 
         private bool ClubExists(int regNumber)

@@ -13,9 +13,6 @@ namespace BusinessLogic.Models
         private DateTime startDate;
         private DateTime endDate;
         private string name;
-        private readonly PoolType course;
-        private byte noOfLanes;
-        private byte eventCounter;
         private readonly Event[] events = new Event[MAXIMUM_NO_OF_EVENTS];
 
         #endregion
@@ -60,16 +57,11 @@ namespace BusinessLogic.Models
             set { name = string.IsNullOrEmpty(value) ? "Default_Name" : value; }
         }
 
-        public PoolType Course
-        {
-            get { return course; }
-        }
+        public PoolType Course { get; }
 
-        public byte NoOfLanes
-        {
-            get { return noOfLanes; }
-            set { noOfLanes = value; }
-        }
+        public byte NoOfLanes { get; set; }
+
+        public byte EventCounter { get; private set; }
 
         #endregion
 
@@ -82,13 +74,13 @@ namespace BusinessLogic.Models
             StartDate = startDate;
             EndDate = endDate;
             Name = name;
-            this.course = course;
+            Course = course;
             NoOfLanes = noOfLanes;
         }
 
         public void AddEvent(Event @event)
         {
-            events[eventCounter++] = @event;
+            events[EventCounter++] = @event;
             @event.SwimMeet = this;
         }
 

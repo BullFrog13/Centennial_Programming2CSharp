@@ -6,7 +6,7 @@ namespace BusinessLogic.Utils
     {
         private static readonly byte MAXIMUM_QUEUE_LENGTH = 10;
 
-        private int exceptionCount;
+        public int ExceptionCount { get; private set; }
 
         private Exception[] Exceptions { get; }
 
@@ -17,15 +17,18 @@ namespace BusinessLogic.Utils
 
         public void Add(Exception exception)
         {
-            if (exceptionCount < MAXIMUM_QUEUE_LENGTH)
+            if (ExceptionCount < MAXIMUM_QUEUE_LENGTH)
             {
-                Exceptions[exceptionCount++] = exception;
+                Exceptions[ExceptionCount++] = exception;
             }
         }
 
         public void ReleaseQueue()
         {
-            throw new Exception(ComposeExceptionMessage());
+            if (ExceptionCount > 0)
+            {
+                throw new Exception(ComposeExceptionMessage());
+            }
         }
 
         public void PrintQueue()
@@ -37,9 +40,9 @@ namespace BusinessLogic.Utils
         {
             var exceptionMessage = string.Empty;
 
-            if (exceptionCount > 0)
+            if (ExceptionCount > 0)
             {
-                for (var i = 0; i < exceptionCount; i++)
+                for (var i = 0; i < ExceptionCount; i++)
                 {
                     exceptionMessage += Exceptions[i].Message + "\n";
                 }
